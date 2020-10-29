@@ -13,8 +13,8 @@ La aplicación NO  debe permitir subir ficheros cuyo nombres ya exista en el dire
 <body>
 	<form enctype="multipart/form-data" action="guardarimagenes.php" method="post">
 		<input type="hidden" name="MAX_FILE_SIZE" value="200000" accept="image/png, .jpg "/>
-		 <label>Elija las imagenes a subir </label> <input name="imagen1" type="file"/> <br />
-		 <input name="imagen2" type="file"/> <br />
+		 <label>Elija las imagenes a subir </label> <input name="imagen[]" type="file"/> <br />
+		 <input name="imagen[]" type="file"/> <br />
 		<input type="submit" value="Subir archivo" />
 	</form>
 </body>

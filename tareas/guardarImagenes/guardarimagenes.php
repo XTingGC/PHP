@@ -12,27 +12,29 @@
  * La aplicación NO debe permitir subir ficheros cuyo nombres ya exista en el directorio de imágenes.
  */
 $mensaje='';
-// director;io de subida
+//directorio de subida
 $directorioSubida = 'D:\imgusers';
-$sum = $_FILES['imagen2']['size']+$_FILES['imagen1']['size'];
-$nombreFichero = $_FILES['imagen1']['name'];
-$tipoFichero = $_FILES['imagen1']['type'];
-$tamanioFichero = $_FILES['imagen1']['size'];
-$temporalFichero = $_FILES['imagen1']['tmp_name'];
-$errorFichero = $_FILES['imagen1']['error'];
+$sum= array_sum($_FILES['imagen']['size']);
 
-$mensaje .= 'Intentando subir el archivo: ' . ' <br />';
-$mensaje .= "- Nombre: $nombreFichero" . ' <br />';
-$mensaje .= '- Tamaño: ' . number_format(($tamanioFichero / 1000), 1, ',', '.') . ' KB <br />';
-$mensaje .= "- Tipo: $tipoFichero" . ' <br />';
-$mensaje .= "- Nombre archivo temporal: $temporalFichero" . ' <br />';
-$mensaje .= "- Código de estado: $errorFichero" . ' <br />';
-
-$mensaje .= '<br />RESULTADO<br />';
-   
+foreach ($_FILES['imagen']['error'] as $clave => $errorFichero){
+    $nombreFichero = $_FILES['imagen']['name'][$clave];
+    $tipoFichero = $_FILES['imagen']['type'][$clave];
+    $tamanioFichero = $_FILES['imagen']['size'][$clave];
+    $temporalFichero = $_FILES['imagen']['tmp_name'][$clave];
+    $errorFichero = $_FILES['imagen']['error'][$clave];
+    
 if ($errorFichero > 0) {
-    $mensaje .= "Se ha producido el error: $errorFichero:" . errorSubida($errorFichero) . ' <br />';
-} else { // subida correcta del temporal
+    $mensaje .= "  <br /> Se ha producido el error: $errorFichero:" . errorSubida($errorFichero) . ' <br />';
+} else {
+    $mensaje .= ' <br />Intentando subir el archivo: ' . ' <br />';
+    $mensaje .= "- Nombre: $nombreFichero" . ' <br />';
+    $mensaje .= '- Tamaño: ' . number_format(($tamanioFichero / 1000), 1, ',', '.') . ' KB <br />';
+    $mensaje .= "- Tipo: $tipoFichero" . ' <br />';
+    $mensaje .= "- Nombre archivo temporal: $temporalFichero" . ' <br />';
+    $mensaje .= "- Código de estado: $errorFichero" . ' <br />';
+    
+    $mensaje .= '<br />RESULTADO <br />';
+    // subida correcta del temporal
          // si es un directorio y tengo permisos y si el formato es el correcto
     if(!file_exists($directorioSubida . '/' . $nombreFichero)){
     if($sum<300000){
@@ -49,42 +51,8 @@ if ($errorFichero > 0) {
         $mensaje .= "La imagen ya existe. <br />'";
     }
 }
-
-$nombreFichero = $_FILES['imagen2']['name'];
-$tipoFichero = $_FILES['imagen2']['type'];
-$tamanioFichero = $_FILES['imagen2']['size'];
-$temporalFichero = $_FILES['imagen2']['tmp_name'];
-$errorFichero = $_FILES['imagen2']['error'];
-
-$mensaje .= ' <br /> Intentando subir el archivo: ' . ' <br />';
-$mensaje .= "- Nombre: $nombreFichero" . ' <br />';
-$mensaje .= '- Tamaño: ' . number_format(($tamanioFichero / 1000), 1, ',', '.') . ' KB <br />';
-$mensaje .= "- Tipo: $tipoFichero" . ' <br />';
-$mensaje .= "- Nombre archivo temporal: $temporalFichero" . ' <br />';
-$mensaje .= "- Código de estado: $errorFichero" . ' <br />';
-
-$mensaje .= '<br />RESULTADO<br />';
-//suma del tamaño de ambos ficheros
-$sum = $_FILES['imagen2']['size']+$_FILES['imagen1']['size'];
-if ($errorFichero > 0) {
-    $mensaje .= "Se ha producido el error: $errorFichero:" . errorSubida($errorFichero) . ' <br />';
-} else { // subida correcta del temporal
-    // si es un directorio y tengo permisos y si el formato es el correcto
-    if(!file_exists($directorioSubida . '/' . $nombreFichero)){
-    if($sum<300000){
-    if (is_dir($directorioSubida) && is_writable($directorioSubida) && formatoImagen($nombreFichero) == true) {
-        
-        if (move_uploaded_file($temporalFichero, $directorioSubida . '/' . $nombreFichero) == true) {
-            $mensaje .= 'Archivo guardado en: ' . $directorioSubida . '/' . $nombreFichero . ' <br/>';
-        }
-    } else {
-        $mensaje .= "El formato no es válido. Solo se aceptan archivos JPG y PGN <br />";
-    }}else{
-        $mensaje .= "El tamaño de ambos archivos excede el límite.";
-    }}else{
-        $mensaje .= "La imagen ya existe.";
-    }
 }
+
 
 
 function errorSubida($errorFichero)
