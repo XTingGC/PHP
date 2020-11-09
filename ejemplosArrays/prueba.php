@@ -1,10 +1,20 @@
 <?php
-$datos = [
-    ["nombre" => "pepe", "edad" => 25, "peso" => 80],
-    ["nombre" => "juan", "edad" => 22, "peso" => 75]
-];
+// Crear una imagen de 200 x 200
+$lienzo = imagecreatetruecolor(200, 200);
 
-print "<p>{$datos[1]["nombre"]} pesa {$datos[1]["peso"]} kilos</p>\n";
-print "\n";
-print "<p>" . $datos[0]["nombre"] . " tiene " . $datos[0]["edad"] . " años</p>\n";
+// Asignar colores
+$rosa = imagecolorallocate($lienzo, 255, 105, 180);
+$blanco = imagecolorallocate($lienzo, 255, 255, 255);
+$verde = imagecolorallocate($lienzo, 132, 135, 28);
+
+// Dibujar tres rectángulos, cada uno con su color
+imagerectangle($lienzo, 50, 50, 150, 150, $rosa);
+imagerectangle($lienzo, 45, 60, 120, 100, $blanco);
+imagerectangle($lienzo, 100, 120, 75, 160, $verde);
+
+// Imprimir y liberar memoria
+header('Content-Type: image/jpeg');
+
+imagejpeg($lienzo);
+imagedestroy($lienzo);
 ?>
