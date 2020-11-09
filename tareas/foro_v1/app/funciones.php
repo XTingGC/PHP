@@ -31,7 +31,7 @@ function letraMasRepetida($comentario)
     return $letra;
 }
 
-function palabraMasRepetida($comentario)
+function palabraMasRepetida($comentario):string
 {
     $max = 0;
     $palabra="";
@@ -46,7 +46,7 @@ function palabraMasRepetida($comentario)
     }
     return $palabra;
 }
-function maxLetras($comentario) {
+function maxLetras($comentario):string{
     if(strlen($comentario)>300){
         return "El comentario debe tener menos de 300 caracteres";
     } else {
