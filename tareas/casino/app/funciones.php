@@ -14,9 +14,10 @@ function asignarNum($num)
 }
 
 function ganar($cantInicial, $cantApostada) {
-    return $cantInicial - $cantApostada;
+
+    return  $cantInicial + $cantApostada;
 }
 
 function perder($cantInicial, $cantApostada) {
-    return $cantInicial + $cantApostada;
+    return $cantInicial - $cantApostada;
 }
